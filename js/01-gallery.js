@@ -3,9 +3,9 @@ const galleryRef = document.querySelector('.gallery');
 
 //Функция отрисовки галереи
 function galleryRender(arrayOfImages) {
-    const imagesArr = [];
+    const imagesArr = galleryItems.map;
     galleryItems.map(({ preview, original, description }) => {
-        imagesArr.push(`<div class="gallery__item">
+        return (`<div class="gallery__item">
                             <a class="gallery__link" href="large-image.jpg">
                                 <img
                                 class="gallery__image"
@@ -26,16 +26,21 @@ function openOriginalImage(event) {
 
         if (event.target.classList.contains('gallery__image')) {
         const instance = basicLightbox.create(
-            // открываем модальное окно
-            `<img src="${event.target.dataset.source}" width="800" height="600">`,
+                        `<img src="${event.target.dataset.source}" width="800" height="600">`,
             {
-                onClose: instance =>
-                    document.removeEventListener('keydown', onEscClick), // снимаем слушатель клавиатуры при закрытие модалки
+                onShow: instance => {
+                    window.addEventListener('keydown', onEscClick);
+                },
             },
+            {
+                onClose: instance => {
+                    window.removeEventListener('keydown', onEscClick);
+                },
+                },
         );
         instance.show();
 
-        document.addEventListener('keydown', onEscClick); // добавляем слушатель клавиатуры
+        window.addEventListener('keydown', onEscClick); // добавляем слушатель клавиатуры
         function onEscClick(event) {
             // проверяем как кнопка нажата
             if (event.code === 'Escape') {
