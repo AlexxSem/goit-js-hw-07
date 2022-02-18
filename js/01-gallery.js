@@ -38,14 +38,19 @@ function openOriginalImage(event) {
                 },
                 },
         );
-        instance.show();
-
-        window.addEventListener('keydown', onEscClick); // добавляем слушатель клавиатуры
+            
+            function onImgClick(event) {
+                event.preventDefault();
+                if (event.target.nodeName !== 'IMG') {
+                    return;
+                }
+                instance.show();
+            }
+        
         function onEscClick(event) {
-            // проверяем как кнопка нажата
             if (event.code === 'Escape') {
-                // если ESC то закрываем модалку
                 instance.close();
+                return;
             }
         }
     } else {
